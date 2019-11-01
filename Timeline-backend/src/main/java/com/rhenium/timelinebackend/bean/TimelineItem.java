@@ -1,6 +1,8 @@
 package com.rhenium.timelinebackend.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +15,9 @@ public class TimelineItem {
     private Integer id;
     private String userName;
     private String title;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime postDateTime;
     private String text;
-    private String imageURL;
+    private String imageUrl;
 }
