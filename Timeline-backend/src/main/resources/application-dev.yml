@@ -4,6 +4,9 @@ spring:
     username: root
     password: Thwf1858
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 server:
   port: 8081
 mybatis:
@@ -11,3 +14,6 @@ mybatis:
     use-column-label: true
     use-generated-keys: true
     map-underscore-to-camel-case: true
+logging:
+  level:
+    com.rhenium.timelinebackend.mapper: debug
