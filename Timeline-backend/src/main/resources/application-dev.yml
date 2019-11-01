@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/timeline
+    username: root
+    password: Thwf1858
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8081
+mybatis:
+  configuration:
+    use-column-label: true
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
