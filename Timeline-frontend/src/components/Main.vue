@@ -4,12 +4,16 @@
     <Header />
     <!-- End -->
 
-    <!-- Buttons -->
-    <UpdateButton v-on:updateTimeline="updateTimeline" />
+    <!-- Button -->
+    <UpdateButton v-bind:buttonName="update" v-on:updateTimeline="updateNewerTimeline" />
     <!-- End -->
 
     <!-- Timeline -->
     <Timeline v-bind:timelineItems="timelineItems" />
+    <!-- End -->
+
+    <!-- Button -->
+    <UpdateButton v-bind:buttonName="getMore" v-on:updateTimeline="updateOlderTimeline" />
     <!-- End -->
   </div>
 </template>
@@ -29,20 +33,46 @@ export default {
   },
   data() {
     return {
-      timelineItems: []
+      timelineItems: [],
+      update: 'Update',
+      getMore: 'More'
     }
   },
   methods: {
-    updateTimeline() {
+    updateNewerTimeline() {
       axios
-        .get('http://127.0.0.1:8081/TimelineItems')
-        .then(res => (this.timelineItems = [res.data, ...this.timelineItems]))
-        // .then(
-        //   res =>
-        //     (this.timelineItems.push(res.data[0]))
-        // )
+        .get('http://127.0.0.1:8081/TimelineItems', {
+          params: {
+            type: 0,
+            id: this.timelineItems[0].id,
+            count: -1
+          }
+        })
+        .then(res => (this.timelineItems = res.data.concat(this.timelineItems)))
+        .catch(err => console.log(err))
+    },
+    updateOlderTimeline() {
+      axios
+        .get('http://127.0.0.1:8081/TimelineItems', {
+          params: {
+            type: 1,
+            id: this.timelineItems[this.timelineItems.length - 1].id,
+            count: 2
+          }
+        })
+        .then(res => (this.timelineItems = this.timelineItems.concat(res.data)))
         .catch(err => console.log(err))
     }
+  },
+  created() {
+    axios
+      .get('http://127.0.0.1:8081/InitialTimelineItems', {
+        params: {
+          count: 3
+        }
+      })
+      .then(res => (this.timelineItems = res.data))
+      .catch(err => console.log(err))
   }
 }
 </script>
