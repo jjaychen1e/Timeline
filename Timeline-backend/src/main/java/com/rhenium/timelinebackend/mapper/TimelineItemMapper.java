@@ -14,10 +14,10 @@ import java.util.List;
 @Mapper
 public interface TimelineItemMapper {
 
-    @Select("SELECT * FROM timeline_items LIMIT #{count}")
+    @Select("SELECT * FROM timeline_items ORDER BY id DESC LIMIT #{count}")
     List<TimelineItem> getInitialTimelineItem(@Param("count")int count);
 
-    @Select("SELECT * FROM timeline_items WHERE id > #{id}")
+    @Select("SELECT * FROM timeline_items WHERE id > #{id} ORDER BY id DESC")
     List<TimelineItem> getNewTimelineItem(@Param("id")int id);
 
     @Select("SELECT * FROM timeline_items WHERE id < #{id}")
