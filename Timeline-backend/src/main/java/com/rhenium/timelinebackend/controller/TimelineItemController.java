@@ -21,14 +21,14 @@ public class TimelineItemController {
     TimelineItemService timelineItemService;
 
     @RequestMapping(value = "InitialTimelineItems", method = RequestMethod.GET)
-    public List<TimelineItem> getInitialTimelineItem(@RequestParam int count){
+    public List<TimelineItem> getInitialTimelineItem(@RequestParam int count) {
         return timelineItemService.getInitialTimelineItem(count);
     }
 
     @RequestMapping(value = "TimelineItems", method = RequestMethod.GET)
     public List<TimelineItem> getMoreTimelineItem(@RequestParam int type,
-                                                 @RequestParam int id,
-                                                 @RequestParam int count){
+                                                  @RequestParam int id,
+                                                  @RequestParam int count) {
         return timelineItemService.getMoreTimelineItem(type, id, count);
     }
 
@@ -36,8 +36,12 @@ public class TimelineItemController {
     public int addTimelineItem(@RequestParam String userName,
                                @RequestParam String title,
                                @RequestParam String text,
-                               @RequestParam MultipartFile file){
-        return timelineItemService.addTimelineItem(userName, title, text, file);
+                               @RequestParam Object file) {
+        try {
+            return timelineItemService.addTimelineItem(userName, title, text, (MultipartFile) file);
+        } catch (Exception e) {
+            return timelineItemService.addTimelineItem(userName, title, text);
+        }
     }
 
 }

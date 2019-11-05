@@ -43,6 +43,12 @@ public class TimelineItemService {
         }
     }
 
+    public int addTimelineItem(String userName, String title, String text){
+        String imageUrl = null;
+        TimelineItem timelineItem = new TimelineItem(0, userName, title, LocalDateTime.now(), text, imageUrl);
+        return timelineItemMapper.addTimelineItem(timelineItem);
+    }
+
     public int addTimelineItem(String userName, String title, String text, MultipartFile file){
         String pathName = "./images/";
         String fName = file.getOriginalFilename();
