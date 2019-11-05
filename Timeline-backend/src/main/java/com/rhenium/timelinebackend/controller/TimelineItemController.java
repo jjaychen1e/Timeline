@@ -2,10 +2,8 @@ package com.rhenium.timelinebackend.controller;
 
 import com.rhenium.timelinebackend.bean.TimelineItem;
 import com.rhenium.timelinebackend.service.TimelineItemService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -15,6 +13,7 @@ import java.util.List;
  * @date 2019/11/1 3:49 下午
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/")
 public class TimelineItemController {
 
@@ -33,7 +32,12 @@ public class TimelineItemController {
         return timelineItemService.getMoreTimelineItem(type, id, count);
     }
 
-
-
+    @RequestMapping(value = "uploadItem", method = RequestMethod.POST)
+    public int addTimelineItem(@RequestParam String userName,
+                               @RequestParam String title,
+                               @RequestParam String text,
+                               @RequestParam MultipartFile file){
+        return timelineItemService.addTimelineItem(userName, title, text, file);
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.rhenium.timelinebackend.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
  * @date 2019/11/1 3:19 下午
  */
 @Data
+@AllArgsConstructor
 public class TimelineItem {
     private Integer id;
     private String userName;
