@@ -15,6 +15,19 @@
     <!-- Button -->
     <UpdateButton v-bind:buttonName="getMore" v-on:updateTimeline="updateOlderTimeline" />
     <!-- End -->
+
+    <!-- 上传图片 -->
+    <img :src="avatar" class="img-avatar" />
+    <input
+      type="file"
+      name="avatar"
+      id="uppic"
+      accept="image/gif, image/jpeg, image/jpg, image/png"
+      @change="changeImage($event)"
+      ref="avatarInput"
+      class="uppic"
+    />
+    <!-- End -->
   </div>
 </template>
 
@@ -35,7 +48,8 @@ export default {
     return {
       timelineItems: [],
       update: 'Update',
-      getMore: 'More'
+      getMore: 'More',
+      avatar: require('../assets/logo.png')
     }
   },
   methods: {
@@ -62,6 +76,38 @@ export default {
         })
         .then(res => (this.timelineItems = this.timelineItems.concat(res.data)))
         .catch(err => console.log(err))
+    },
+    changeImage(e) {
+      // 获得用户选取的图片
+      var file = e.target.files[0]
+
+      //声明一个 FileReader
+      var reader = new FileReader()
+      // arrow function 会重载 this, 所以先记录一个 that.
+      var that = this
+      reader.readAsDataURL(file)
+      reader.onload = function() {
+        that.avatar = this.result
+      }
+
+      var data = new FormData()
+      data.append('file', file)
+      data.append('userName', 'bigoldxx')
+      data.append('title','Title')
+      data.append('text', 'Content')
+
+      let config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }
+      this.axios
+        // .post('http://152.136.173.30:8080/picSave', data, config)
+        .post('localhost:8001/uploadItem', data, config)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   created() {
