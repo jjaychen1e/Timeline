@@ -1,6 +1,7 @@
 package com.rhenium.timelinebackend.mapper;
 
 import com.rhenium.timelinebackend.bean.TimelineItem;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -21,5 +22,9 @@ public interface TimelineItemMapper {
     List<TimelineItem> getNewTimelineItem(@Param("id")int id);
 
     @Select("SELECT * FROM timeline_items WHERE id < #{id}")
-    List<TimelineItem> getOldTimeLineItem(@Param("id") int id);
+    List<TimelineItem> getOldTimelineItem(@Param("id") int id);
+
+    @Insert("INSERT INTO timeline_items (user_name, title, post_date_time, text, image_url)" +
+            "VALUES (#{userName}, #{title}, now(), #{text}, #{imageUrl})")
+    int addTimelineItem(TimelineItem timelineItem);
 }
