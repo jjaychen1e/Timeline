@@ -36,7 +36,7 @@ public class TimelineItemService {
             List<TimelineItem> allOldTimelineItems = timelineItemMapper.getOldTimelineItem(id);
             List<TimelineItem> oldTimelineItems = new ArrayList<>();
             Collections.reverse(allOldTimelineItems);
-            for (int i = 0; i < count ; i++){
+            for (int i = 0; i < count && i < allOldTimelineItems.size() ; i++){
                 oldTimelineItems.add(allOldTimelineItems.get(i));
             }
             return oldTimelineItems;
