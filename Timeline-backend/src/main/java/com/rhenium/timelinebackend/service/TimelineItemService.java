@@ -50,7 +50,7 @@ public class TimelineItemService {
     }
 
     public int addTimelineItem(String userName, String title, String text, MultipartFile file){
-        String pathName = "./images/";
+        String pathName = "/data/images/";
         String fName = file.getOriginalFilename();
         pathName += fName;
         FileOutputStream fos = null;

@@ -48,12 +48,13 @@ export default {
       update: 'Update',
       getMore: 'More',
       dialogVisible: false,
+      mainURL: 'http://152.136.173.30:8080/'
     }
   },
   methods: {
     updateNewerTimeline() {
       axios
-        .get('http://127.0.0.1:8081/TimelineItems', {
+        .get(this.mainURL + 'TimelineItems', {
           params: {
             type: 0,
             id: this.timelineItems[0].id,
@@ -65,7 +66,7 @@ export default {
     },
     updateOlderTimeline() {
       axios
-        .get('http://127.0.0.1:8081/TimelineItems', {
+        .get(this.mainURL + 'TimelineItems', {
           params: {
             type: 1,
             id: this.timelineItems[this.timelineItems.length - 1].id,
@@ -81,7 +82,7 @@ export default {
   },
   created() {
     axios
-      .get('http://127.0.0.1:8081/InitialTimelineItems', {
+      .get(this.mainURL + 'InitialTimelineItems', {
         params: {
           count: 3
         }
