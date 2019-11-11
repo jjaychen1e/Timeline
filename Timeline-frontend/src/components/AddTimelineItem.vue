@@ -34,6 +34,7 @@
       </div>
       <div align="center" style="margin-top: 7px">
         <el-button @click="removeImage" size="mini" type="danger" icon="el-icon-delete" circle></el-button>
+        <div>(注意图片大小不超过 5MB. 否则上传失败)</div>
       </div>
     </div>
 
