@@ -48,7 +48,7 @@ export default {
       update: 'Update',
       getMore: 'More',
       dialogVisible: false,
-      mainURL: 'http://152.136.173.30:8080/'
+      mainURL: 'http://localhost:8080/'
     }
   },
   methods: {

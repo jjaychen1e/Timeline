@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       currentDialogVisible: this.dialogVisible,
-      postUrl: 'http://152.136.173.30:8080/uploadItem',
+      postUrl: 'http://localhost:8080/uploadItem',
       avatar: require('../assets/logo.png'),
       avatarShow: false,
       userName: '',
