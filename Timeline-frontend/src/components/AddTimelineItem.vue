@@ -21,7 +21,7 @@
     <div style="margin-top: 15px">
       <div align="center">
         <div taex="0" class="el-upload el-upload--picture-card">
-          <img :src="avatar" v-show="avatarShow" class="img-avatar" :style="style" />
+          <img ref="img" @load="imgOnload" :src="avatar" v-show="avatarShow" class="img-avatar" :style="style" />
           <a v-show="!avatarShow" href="javascript:;" class="file">
             +
             <input
@@ -58,14 +58,14 @@ export default {
   data() {
     return {
       currentDialogVisible: this.dialogVisible,
-      postUrl: 'http://localhost:8080/uploadItem',
+      postUrl: 'http://152.136.173.30:8080/uploadItem',
       avatar: require('../assets/logo.png'),
       avatarShow: false,
       userName: '',
       title: '',
       text: '',
       file: '',
-      style: 'margin: auto; width: 100%; height: auto'
+      style: ''
     }
   },
   watch: {
@@ -80,14 +80,12 @@ export default {
       this.clearInput()
       this.$emit('updateDialogVisible', newValue)
     },
-    avatar: function(newValue, oldValue) {
-      oldValue
-      if (newValue.width >= newValue.height) {
-        this.style = 'margin: auto; width: 100%; height: auto'
-      } else {
-        this.style = 'margin: auto; width: auto; height: 100%'
-      }
-    }
+    // avatar: function(newValue, oldValue) {
+    //   oldValue
+    //   newValue
+    //   console.log(this.$refs['img'].width + ' ' + this.$refs['img'].height)
+
+    // }
   },
   methods: {
     chooseImage(e) {
@@ -105,9 +103,15 @@ export default {
         that.avatar = this.result
         that.avatarShow = true
       }
-
       // 解决选择相同文件不触发 change 事件，因为我们的显示图片预览是操作 img 而不是操作 input 本身
       e.target.value = null
+    },
+    imgOnload(){
+      if (this.$refs['img'].width >= this.$refs['img'].height) {
+        this.style = 'margin: auto; width: 100%; height: auto'
+      } else {
+        this.style = 'margin: auto; width: auto; height: 100%'
+      }
     },
     removeImage() {
       this.file = ''
