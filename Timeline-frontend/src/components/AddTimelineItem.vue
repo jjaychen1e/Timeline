@@ -20,13 +20,8 @@
 
     <div style="margin-top: 15px">
       <div align="center">
-        <div tabindex="0" class="el-upload el-upload--picture-card">
-          <img
-            :src="avatar"
-            v-show="avatarShow"
-            class="img-avatar"
-            style="margin: auto;width: 100%;"
-          />
+        <div taex="0" class="el-upload el-upload--picture-card">
+          <img :src="avatar" v-show="avatarShow" class="img-avatar" :style="style" />
           <a v-show="!avatarShow" href="javascript:;" class="file">
             +
             <input
@@ -68,7 +63,8 @@ export default {
       userName: '',
       title: '',
       text: '',
-      file: ''
+      file: '',
+      style: 'margin: auto; width: 100%; height: auto'
     }
   },
   watch: {
@@ -82,6 +78,14 @@ export default {
       this.removeImage()
       this.clearInput()
       this.$emit('updateDialogVisible', newValue)
+    },
+    avatar: function(newValue, oldValue) {
+      oldValue
+      if (newValue.width >= newValue.height) {
+        this.style = 'margin: auto; width: 100%; height: auto'
+      } else {
+        this.style = 'margin: auto; width: auto; height: 100%'
+      }
     }
   },
   methods: {
