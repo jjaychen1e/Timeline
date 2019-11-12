@@ -25,31 +25,36 @@ public class TimelineItemService {
     @Resource
     TimelineItemMapper timelineItemMapper;
 
-    public List<TimelineItem> getInitialTimelineItem(int count){
+    public List<TimelineItem> getInitialTimelineItem(int count) {
         return timelineItemMapper.getInitialTimelineItem(count);
     }
 
-    public List<TimelineItem> getMoreTimelineItem(int type, int id, int count){
-        if (type == 0){
+    /**
+     * @param type  0 means update, 1 means get earlier messages.
+     * @param id    when type == 0, id is the id of latest message
+     *              from user's site. when type == 1, id is the id
+     *              of the earliest message from user's site.
+     * @param count how many messages returned(if there are enough
+     *              messages from the database).
+     * @return
+     */
+    public List<TimelineItem> getMoreTimelineItem(int type, int id, int count) {
+        if (type == 0) {
             return timelineItemMapper.getNewTimelineItem(id);
         } else {
-            List<TimelineItem> allOldTimelineItems = timelineItemMapper.getOldTimelineItem(id);
-            List<TimelineItem> oldTimelineItems = new ArrayList<>();
-            Collections.reverse(allOldTimelineItems);
-            for (int i = 0; i < count && i < allOldTimelineItems.size() ; i++){
-                oldTimelineItems.add(allOldTimelineItems.get(i));
-            }
+            List<TimelineItem> oldTimelineItems = timelineItemMapper.getOldTimelineItem(id, count);
+
             return oldTimelineItems;
         }
     }
 
-    public int addTimelineItem(String userName, String title, String text){
+    public int addTimelineItem(String userName, String title, String text) {
         String imageUrl = null;
         TimelineItem timelineItem = new TimelineItem(0, userName, title, LocalDateTime.now(), text, imageUrl);
         return timelineItemMapper.addTimelineItem(timelineItem);
     }
 
-    public int addTimelineItem(String userName, String title, String text, MultipartFile file){
+    public int addTimelineItem(String userName, String title, String text, MultipartFile file) {
         String pathName = "/data/images/";
         String fName = file.getOriginalFilename();
         pathName += fName;
