@@ -21,8 +21,8 @@ public interface TimelineItemMapper {
     @Select("SELECT * FROM timeline_items WHERE id > #{id} ORDER BY id DESC")
     List<TimelineItem> getNewTimelineItem(@Param("id")int id);
 
-    @Select("SELECT * FROM timeline_items WHERE id < #{id}")
-    List<TimelineItem> getOldTimelineItem(@Param("id") int id);
+    @Select("SELECT * FROM timeline_items WHERE id < #{id} ORDER BY id DESC LIMIT #{limit}")
+    List<TimelineItem> getOldTimelineItem(@Param("id") int id, @Param("limit") int limit);
 
     @Insert("INSERT INTO timeline_items (user_name, title, post_date_time, text, image_url)" +
             "VALUES (#{userName}, #{title}, now(), #{text}, #{imageUrl})")
