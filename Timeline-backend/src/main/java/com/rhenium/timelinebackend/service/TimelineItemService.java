@@ -54,13 +54,14 @@ public class TimelineItemService {
         return timelineItemMapper.addTimelineItem(timelineItem);
     }
 
+    FileOutputStream fos = null;
+
     public int addTimelineItem(String userName, String title, String text, MultipartFile file) {
         String pathName = "/data/images/";
         String fName = file.getOriginalFilename();
         pathName += fName;
-        FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(pathName);
+            if (fos == null) fos = new FileOutputStream(pathName);
             fos.write(file.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,4 +76,5 @@ public class TimelineItemService {
         TimelineItem timelineItem = new TimelineItem(0, userName, title, LocalDateTime.now(), text, imageUrl);
         return timelineItemMapper.addTimelineItem(timelineItem);
     }
+
 }
