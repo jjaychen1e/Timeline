@@ -2,14 +2,14 @@ package com.rhenium.timelinebackend.service;
 
 import com.rhenium.timelinebackend.bean.TimelineItem;
 import com.rhenium.timelinebackend.mapper.TimelineItemMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.FileOutputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
  * @author JJAYCHEN
  * @date 2019/11/12 3:30 下午
  */
-@ExtendWith({MockitoExtension.class})
+@SpringBootTest
 class TimelineItemServiceTest {
 
     /**
@@ -28,13 +28,8 @@ class TimelineItemServiceTest {
     @Mock
     TimelineItemMapper timelineItemMapper;
 
+    @InjectMocks
     TimelineItemService timelineItemService;
-
-    @BeforeEach
-    void initialize() {
-        timelineItemService = new TimelineItemService();
-        timelineItemService.timelineItemMapper = this.timelineItemMapper;
-    }
 
     @Test
     /**
