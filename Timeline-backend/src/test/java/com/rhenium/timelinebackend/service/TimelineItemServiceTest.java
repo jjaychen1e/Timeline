@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.FileOutputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -27,7 +26,7 @@ class TimelineItemServiceTest {
     TimelineItemMapper timelineItemMapper;
 
     @InjectMocks
-    TimelineItemService timelineItemService;
+    TimelineItemServiceFake timelineItemService;
 
     @Test
     /**
@@ -62,10 +61,8 @@ class TimelineItemServiceTest {
 
     @Test
     /**
-     * 如果添加的 timelineItem 没有图片，需要设置 file 为 NULL，再调用
-     * timelineItemMapper 插入数据库。如果添加的 timelineItem 包括图片，
-     * 需要把图片存在本地文件系统中，生成一个 URL，再存入数据库。这里需要断
-     * 开与本地文件系统的连接。
+     * 如果添加的 timelineItem 没有图片，直接调用 timelineItemMapper
+     * 插入数据库
      */
     void addTimelineItemWithoutImage() {
         timelineItemService.addTimelineItem("JJAYCHEN", "TEST TITLE", "TEST CONTENT");
@@ -76,6 +73,7 @@ class TimelineItemServiceTest {
         assertEquals("JJAYCHEN", timelineItemArgumentCaptor.getValue().getUserName());
         assertEquals("TEST TITLE", timelineItemArgumentCaptor.getValue().getTitle());
         assertEquals("TEST CONTENT", timelineItemArgumentCaptor.getValue().getText());
+        assertNull(timelineItemArgumentCaptor.getValue().getImageUrl());
     }
 
     @Test
@@ -85,11 +83,6 @@ class TimelineItemServiceTest {
      */
     void addTimelineItemWithImage() {
         MultipartFile file = mock(MultipartFile.class);
-        when(file.getOriginalFilename()).thenReturn("testImage.png");
-
-        FileOutputStream fos = mock(FileOutputStream.class);
-        timelineItemService.fos = fos;
-
         timelineItemService.addTimelineItem("JJAYCHEN", "TEST TITLE", "TEST CONTENT", file);
 
         ArgumentCaptor<TimelineItem> timelineItemArgumentCaptor = ArgumentCaptor.forClass(TimelineItem.class);
@@ -99,5 +92,12 @@ class TimelineItemServiceTest {
         assertEquals("TEST TITLE", timelineItemArgumentCaptor.getValue().getTitle());
         assertEquals("TEST CONTENT", timelineItemArgumentCaptor.getValue().getText());
         assertEquals("http://152.136.173.30/images/testImage.png", timelineItemArgumentCaptor.getValue().getImageUrl());
+    }
+}
+
+class TimelineItemServiceFake extends TimelineItemService {
+    @Override
+    public String saveImageFile(MultipartFile file) {
+        return "http://152.136.173.30/images/testImage.png";
     }
 }

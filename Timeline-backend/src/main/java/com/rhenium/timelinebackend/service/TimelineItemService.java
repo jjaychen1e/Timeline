@@ -10,8 +10,6 @@ import javax.annotation.Resource;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,14 +52,19 @@ public class TimelineItemService {
         return timelineItemMapper.addTimelineItem(timelineItem);
     }
 
-    FileOutputStream fos = null;
-
     public int addTimelineItem(String userName, String title, String text, MultipartFile file) {
+        String imageUrl = saveImageFile(file);
+        TimelineItem timelineItem = new TimelineItem(0, userName, title, LocalDateTime.now(), text, imageUrl);
+        return timelineItemMapper.addTimelineItem(timelineItem);
+    }
+
+    public String saveImageFile(MultipartFile file) {
         String pathName = "/data/images/";
         String fName = file.getOriginalFilename();
         pathName += fName;
+        FileOutputStream fos = null;
         try {
-            if (fos == null) fos = new FileOutputStream(pathName);
+            fos = new FileOutputStream(pathName);
             fos.write(file.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,8 +76,7 @@ public class TimelineItemService {
             }
         }
         String imageUrl = "http://152.136.173.30/images/" + fName;
-        TimelineItem timelineItem = new TimelineItem(0, userName, title, LocalDateTime.now(), text, imageUrl);
-        return timelineItemMapper.addTimelineItem(timelineItem);
+        return imageUrl;
     }
 
 }

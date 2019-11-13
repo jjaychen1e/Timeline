@@ -31,33 +31,41 @@ class TimelineItemControllerTest {
 
     @Test
     public void getInitialTimelineItem() throws Exception {
-        mockMvc.perform(get("/InitialTimelineItems").param("count", "5"));
+        mockMvc.perform(get("/InitialTimelineItems")
+                .param("count", "5"))
+                .andExpect(status().isOk());
         verify(timelineItemService, times(1)).getInitialTimelineItem(5);
     }
 
     @Test
     void getMoreTimelineItem() throws Exception {
-        mockMvc.perform(get("/TimelineItems").param("type", "0").param("id", "5").param("count", "5"));
+        mockMvc.perform(get("/TimelineItems")
+                .param("type", "0")
+                .param("id", "5")
+                .param("count", "5"));
         verify(timelineItemService, times(1)).getMoreTimelineItem(0, 5, 5);
     }
 
     @Test
-    void addTimelineItem() throws Exception {
+    void addTimelineItemWithoutFile() throws Exception {
         mockMvc.perform(post("/uploadItem")
                 .param("userName", "JJAYCHEN")
                 .param("title", "TEST TITLE")
                 .param("text", "TEST CONTENT")
-                .param("file", ""));
+                .param("file", ""))
+                .andExpect(status().isOk());
         verify(timelineItemService, times(1)).addTimelineItem("JJAYCHEN", "TEST TITLE", "TEST CONTENT");
+    }
 
-
-        MockMultipartFile file = new MockMultipartFile("file", "testImage.png", "image", "some xml".getBytes());
+    @Test
+    void addTimelineItemWithFile() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "".getBytes());
         mockMvc.perform(MockMvcRequestBuilders.multipart("/uploadItem")
                 .file(file)
                 .param("userName", "JJAYCHEN")
                 .param("title", "TEST TITLE")
                 .param("text", "TEST CONTENT"))
-                .andExpect(status().is(200));
+                .andExpect(status().isOk());
 
         verify(timelineItemService, times(1)).addTimelineItem("JJAYCHEN", "TEST TITLE", "TEST CONTENT", file);
     }
