@@ -94,5 +94,4 @@ class TimelineItemControllerTest {
         perform.andExpect(status().isOk());
         verify(timelineItemService, times(1)).addTimelineItem("user", "text","text case", mockFile);
     }
-
 }
