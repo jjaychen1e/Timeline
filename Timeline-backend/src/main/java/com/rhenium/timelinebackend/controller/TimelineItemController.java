@@ -37,11 +37,10 @@ public class TimelineItemController {
                                @RequestParam String title,
                                @RequestParam String text,
                                @RequestParam Object file) {
-        try {
-            return timelineItemService.addTimelineItem(userName, title, text, (MultipartFile) file);
-        } catch (Exception e) {
+        if(file.getClass().equals(String.class)) {
             return timelineItemService.addTimelineItem(userName, title, text);
         }
+        return timelineItemService.addTimelineItem(userName, title, text, (MultipartFile)file);
     }
 
 }
