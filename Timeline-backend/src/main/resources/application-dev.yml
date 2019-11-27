@@ -8,7 +8,7 @@ spring:
     url: jdbc:mysql://localhost:3306/timeline?useUnicode=yes&characterEncoding=utf8
 #    if you want to run the project, you need to connect to your own DB
     username: root
-    password: Thwf1858
+    password: LAIqian~~666
     driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
