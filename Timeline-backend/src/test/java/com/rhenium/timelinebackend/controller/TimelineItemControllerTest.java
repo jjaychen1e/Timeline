@@ -1,6 +1,7 @@
 package com.rhenium.timelinebackend.controller;
 
 import com.rhenium.timelinebackend.service.TimelineItemService;
+import com.rhenium.timelinebackend.service.TimelineItemServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,6 +11,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -28,14 +30,14 @@ class TimelineItemControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    TimelineItemService timelineItemService;
+    TimelineItemServiceImpl timelineItemServiceImpl;
 
     @Test
     void shouldGetInitialItems() throws Exception{
         ResultActions perform = mockMvc.perform(get("/InitialTimelineItems")
                 .param("count", "4"));
         perform.andExpect(status().isOk());
-        verify(timelineItemService, times(1)).getInitialTimelineItem(4);
+        verify(timelineItemServiceImpl, times(1)).getInitialTimelineItem(4);
     }
 
     @Test
@@ -45,7 +47,7 @@ class TimelineItemControllerTest {
                                                 .param("id", "5")
                                                 .param("count", "5"));
         perform.andExpect(status().isOk());
-        verify(timelineItemService, times(1)).getMoreTimelineItem(1, 5, 5);
+        verify(timelineItemServiceImpl, times(1)).getMoreTimelineItem(1, 5, 5);
     }
 
     @Test
@@ -55,7 +57,7 @@ class TimelineItemControllerTest {
                 .param("id", "7")
                 .param("count", "7"));
         perform.andExpect(status().isOk());
-        verify(timelineItemService, times(1)).getMoreTimelineItem(0, 7, 7);
+        verify(timelineItemServiceImpl, times(1)).getMoreTimelineItem(0, 7, 7);
     }
 
     @Test
@@ -66,7 +68,7 @@ class TimelineItemControllerTest {
                 .param("text", "test case")
                 .param("file", ""));
         perform.andExpect(status().isOk());
-        verify(timelineItemService, times(1)).addTimelineItem("user", "test", "test case");
+        verify(timelineItemServiceImpl, times(1)).addTimelineItem("user", "test", "test case");
     }
 
     @Test
@@ -78,6 +80,6 @@ class TimelineItemControllerTest {
                 .param("title", "text")
                 .param("text", "text case"));
         perform.andExpect(status().isOk());
-        verify(timelineItemService, times(1)).addTimelineItem("user", "text","text case", mockFile);
+        verify(timelineItemServiceImpl, times(1)).addTimelineItem("user", "text","text case", mockFile);
     }
 }
