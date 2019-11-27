@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="New Post" :visible.sync="currentDialogVisible">
     <div>
-      <el-input placeholder="UserName" v-model="userName">
+      <el-input placeholder="User Name" v-model="userName">
         <template slot="prepend">
           <i class="el-icon-user-solid"></i>
         </template>
@@ -15,13 +15,20 @@
     </div>
 
     <div style="margin-top: 15px;">
-      <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="text"></el-input>
+      <el-input type="textarea" :rows="5" placeholder="请输入内容(不超过 120 字)" v-model="text"></el-input>
     </div>
 
     <div style="margin-top: 15px">
       <div align="center">
         <div taex="0" class="el-upload el-upload--picture-card">
-          <img ref="img" @load="imgOnload" :src="avatar" v-show="avatarShow" class="img-avatar" :style="style" />
+          <img
+            ref="img"
+            @load="imgOnload"
+            :src="avatar"
+            v-show="avatarShow"
+            class="img-avatar"
+            :style="style"
+          />
           <a v-show="!avatarShow" href="javascript:;" class="file">
             +
             <input
@@ -79,7 +86,7 @@ export default {
       this.removeImage()
       this.clearInput()
       this.$emit('updateDialogVisible', newValue)
-    },
+    }
     // avatar: function(newValue, oldValue) {
     //   oldValue
     //   newValue
@@ -106,7 +113,7 @@ export default {
       // 解决选择相同文件不触发 change 事件，因为我们的显示图片预览是操作 img 而不是操作 input 本身
       e.target.value = null
     },
-    imgOnload(){
+    imgOnload() {
       if (this.$refs['img'].width >= this.$refs['img'].height) {
         this.style = 'margin: auto; width: 100%; height: auto'
       } else {
@@ -125,6 +132,18 @@ export default {
     submit() {
       if (this.text == '' || this.title == '' || this.userName == '') {
         alert('UserName, Title and Content should not be null!')
+        return
+      }
+      if (this.text.length > 120) {
+        alert('内容不能超过 120 字.')
+        return
+      }
+      if (this.userName.length > 8) {
+        alert('用户名不能超过 8 字.')
+        return
+      }
+      if (this.title.length > 10) {
+        alert('标题不能超过 15 字.')
         return
       }
       var data = new FormData()
@@ -162,3 +181,5 @@ export default {
   }
 }
 </script>
+
+<style></style>
