@@ -50,8 +50,10 @@ This is a Timeline project for software testing. You can visit the deployed proj
 
 - `TimelineItemControllerTest`
 
-<div align="center"><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g9cvsymmugj30h20dqabq.jpg" style="width:30%;"/></div>
+<div align="center"><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g9cvsymmugj30h20dqabq.jpg" width="40%">
+</img></div>
 
-- TimelineItemServiceImplTest
+- `TimelineItemServiceImplTest`
 
-<div align="center"><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g9cvuj0f78j30l20fg765.jpg" style="zoom:30%;" /></div>
+<div align="center"><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g9cvuj0f78j30l20fg765.jpg" width="40%">
+</img></div>
