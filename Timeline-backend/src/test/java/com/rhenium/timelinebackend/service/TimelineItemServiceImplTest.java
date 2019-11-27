@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
  * @date 2019/11/12 3:30 下午
  */
 @SpringBootTest
-class TimelineItemServiceTest {
+class TimelineItemServiceImplTest {
 
     /**
      * @Mock 注解只能加在全局变量上
@@ -26,7 +26,7 @@ class TimelineItemServiceTest {
     TimelineItemMapper timelineItemMapper;
 
     @InjectMocks
-    TimelineItemServiceFake timelineItemService;
+    TimelineItemServiceImplFake timelineItemService;
 
     @Test
     /**
@@ -95,7 +95,7 @@ class TimelineItemServiceTest {
     }
 }
 
-class TimelineItemServiceFake extends TimelineItemService {
+class TimelineItemServiceImplFake extends TimelineItemServiceImpl {
     @Override
     public String saveImageFile(MultipartFile file) {
         return "http://152.136.173.30/images/testImage.png";

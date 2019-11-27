@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @date 2019/11/1 3:31 下午
  */
 @Mapper
+@Repository
 public interface TimelineItemMapper {
 
     @Select("SELECT * FROM timeline_items ORDER BY id DESC LIMIT #{count}")
