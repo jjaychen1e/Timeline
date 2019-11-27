@@ -17,4 +17,6 @@ public interface TimelineItemService {
     int addTimelineItem(String userName, String title, String text);
 
     int addTimelineItem(String userName, String title, String text, MultipartFile file);
+
+    String saveImageFile(MultipartFile file);
 }

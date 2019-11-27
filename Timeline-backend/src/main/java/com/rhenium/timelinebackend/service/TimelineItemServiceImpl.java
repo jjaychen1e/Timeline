@@ -58,6 +58,13 @@ public class TimelineItemServiceImpl implements TimelineItemService {
 
     @Override
     public int addTimelineItem(String userName, String title, String text, MultipartFile file) {
+        String imageUrl = saveImageFile(file);
+        TimelineItem timelineItem = new TimelineItem(0, userName, title, LocalDateTime.now(), text, imageUrl);
+        return timelineItemMapper.addTimelineItem(timelineItem);
+    }
+
+    @Override
+    public String saveImageFile(MultipartFile file) {
         String pathName = "/data/images/";
         String fName = file.getOriginalFilename();
         pathName += fName;
@@ -75,7 +82,6 @@ public class TimelineItemServiceImpl implements TimelineItemService {
             }
         }
         String imageUrl = "http://152.136.173.30/images/" + fName;
-        TimelineItem timelineItem = new TimelineItem(0, userName, title, LocalDateTime.now(), text, imageUrl);
-        return timelineItemMapper.addTimelineItem(timelineItem);
+        return imageUrl;
     }
 }
